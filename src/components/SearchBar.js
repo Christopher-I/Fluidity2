@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Header from "../components/Header";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import BlockInfo from "./blockInfo";

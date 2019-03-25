@@ -36,7 +36,7 @@ class MyComponent extends React.Component {
         result => {
           this.setState({
             isLoaded: true,
-            loading: false,
+
             balance: result.result
           });
         },
@@ -45,7 +45,7 @@ class MyComponent extends React.Component {
         error => {
           this.setState({
             isLoaded: true,
-            loading: false,
+
             error
           });
         }
@@ -63,6 +63,7 @@ class MyComponent extends React.Component {
         result => {
           this.setState({
             isLoaded: true,
+            loading: false,
             data: result.result
           });
         },
@@ -71,6 +72,7 @@ class MyComponent extends React.Component {
         error => {
           this.setState({
             isLoaded: true,
+            loading: false,
             error
           });
         }
@@ -85,7 +87,7 @@ class MyComponent extends React.Component {
         title: "Block Number",
         dataIndex: "blockNumber",
         key: "name1",
-        render: text => <a href={text}>{text}</a>
+        render: text => <a href={"/block/" + text}>{text}</a>
       },
       {
         title: "From",
@@ -99,9 +101,9 @@ class MyComponent extends React.Component {
         dataIndex: "from",
         render: text => {
           if (text === this.props.match.params.address) {
-            return <Tag color="red">Out</Tag>;
+            return <Tag color="red">out</Tag>;
           } else {
-            return <Tag color="green"> In </Tag>;
+            return <Tag color="green">in</Tag>;
           }
         }
       },
