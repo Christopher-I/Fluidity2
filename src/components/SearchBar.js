@@ -15,8 +15,6 @@ import {
   Form
 } from "semantic-ui-react";
 
-import Head from "next/head";
-
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
