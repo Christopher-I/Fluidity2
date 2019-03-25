@@ -15,6 +15,8 @@ import {
   Form
 } from "semantic-ui-react";
 
+import Head from "next/head";
+
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
@@ -105,7 +107,6 @@ class SearchBar extends React.Component {
             </div>
             <div style={{ marginTop: "10px" }} />
             <Menu.Menu position="right">
-              <Menu.Item />
               <Menu.Item>
                 <Form onSubmit={this.handleFormSubmit}>
                   <div
