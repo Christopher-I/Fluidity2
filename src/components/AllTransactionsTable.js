@@ -21,8 +21,99 @@ class MyComponent extends React.Component {
       ERC20Loading: true,
       items: [],
       ERC20Data: [],
-      columns: [],
-      ERC20columns: [],
+      columns: [
+        {
+          title: "Block Number",
+          dataIndex: "blockNumber",
+          key: "blockNumber",
+          render: text => <a href={"/block/" + text}>{text}</a>
+        },
+        {
+          title: "From",
+          dataIndex: "from",
+          key: "from",
+          render: text => <a href={text}>{text}</a>
+        },
+        {
+          title: "",
+          key: "from1",
+          dataIndex: "from",
+          render: text => {
+            if (text === this.props.match.params.address) {
+              return <Tag color="red">out</Tag>;
+            } else {
+              return <Tag color="green">in</Tag>;
+            }
+          }
+        },
+        {
+          title: "To",
+          dataIndex: "to",
+          key: "to",
+          render: text => <a href={text}>{text}</a>
+        },
+        {
+          title: "Value(ETH)",
+          dataIndex: "value",
+          key: "value",
+          render: text => {
+            return (
+              <p color="green"> {(text / 1000000000000000000).toFixed(2)} </p>
+            );
+          }
+        }
+      ],
+      ERC20columns: [
+        {
+          title: "Block Number",
+          dataIndex: "blockNumber",
+          key: "blockNumber",
+          render: text => <a href={"/block/" + text}>{text}</a>
+        },
+        {
+          title: "From",
+          dataIndex: "from",
+          key: "from2",
+          render: text => <a href={text}>{text}</a>
+        },
+        {
+          title: "",
+          key: "from3",
+          dataIndex: "from",
+          render: text => {
+            if (text === this.props.match.params.address) {
+              return <Tag color="red">out</Tag>;
+            } else {
+              return <Tag color="green">in</Tag>;
+            }
+          }
+        },
+        {
+          title: "To",
+          dataIndex: "to",
+          key: "to",
+          render: text => <a href={text}>{text}</a>
+        },
+        {
+          title: "Token Symbol",
+          dataIndex: "tokenSymbol",
+          key: "tokenSymbol",
+          render: text => <p>{text}</p>
+        },
+        {
+          title: "Value",
+          dataIndex: "value",
+          key: "value",
+          render: (text, row) => {
+            return (
+              <p color="green">
+                {" "}
+                {(text / Math.pow(10, row.tokenDecimal)).toFixed(3)}{" "}
+              </p>
+            );
+          }
+        }
+      ],
       data: [],
       etherPrice: ""
     };
@@ -139,103 +230,6 @@ class MyComponent extends React.Component {
       );
   }
 
-  getColumnsAndSetData() {
-    this.state.columns = [
-      {
-        title: "Block Number",
-        dataIndex: "blockNumber",
-        key: "blockNumber",
-        render: text => <a href={"/block/" + text}>{text}</a>
-      },
-      {
-        title: "From",
-        dataIndex: "from",
-        key: "from",
-        render: text => <a href={text}>{text}</a>
-      },
-      {
-        title: "",
-        key: "from1",
-        dataIndex: "from",
-        render: text => {
-          if (text === this.props.match.params.address) {
-            return <Tag color="red">out</Tag>;
-          } else {
-            return <Tag color="green">in</Tag>;
-          }
-        }
-      },
-      {
-        title: "To",
-        dataIndex: "to",
-        key: "to",
-        render: text => <a href={text}>{text}</a>
-      },
-      {
-        title: "Value(ETH)",
-        dataIndex: "value",
-        key: "value",
-        render: text => {
-          return (
-            <p color="green"> {(text / 1000000000000000000).toFixed(2)} </p>
-          );
-        }
-      }
-    ];
-
-    this.state.ERC20columns = [
-      {
-        title: "Block Number",
-        dataIndex: "blockNumber",
-        key: "blockNumber",
-        render: text => <a href={"/block/" + text}>{text}</a>
-      },
-      {
-        title: "From",
-        dataIndex: "from",
-        key: "from2",
-        render: text => <a href={text}>{text}</a>
-      },
-      {
-        title: "",
-        key: "from3",
-        dataIndex: "from",
-        render: text => {
-          if (text === this.props.match.params.address) {
-            return <Tag color="red">out</Tag>;
-          } else {
-            return <Tag color="green">in</Tag>;
-          }
-        }
-      },
-      {
-        title: "To",
-        dataIndex: "to",
-        key: "to",
-        render: text => <a href={text}>{text}</a>
-      },
-      {
-        title: "Token Symbol",
-        dataIndex: "tokenSymbol",
-        key: "tokenSymbol",
-        render: text => <p>{text}</p>
-      },
-      {
-        title: "Value",
-        dataIndex: "value",
-        key: "value",
-        render: (text, row) => {
-          return (
-            <p color="green">
-              {" "}
-              {(text / Math.pow(10, row.tokenDecimal)).toFixed(3)}{" "}
-            </p>
-          );
-        }
-      }
-    ];
-  }
-
   componentDidMount() {
     //start loading
     this.setState.loading = true;
@@ -243,7 +237,7 @@ class MyComponent extends React.Component {
 
     //call neccesary function to gather and organize data
     this.getEtherPrice();
-    this.getColumnsAndSetData();
+
     this.getAllTransactions();
     this.getERC20Transactions();
     this.getBalance();
