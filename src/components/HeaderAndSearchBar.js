@@ -1,32 +1,13 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import BlockInfo from "./blockInfo";
-import Transactions from "./TransactionDetails";
-import {
-  Container,
-  Segment,
-  Grid,
-  Search,
-  Link,
-  Input,
-  Menu,
-  Form
-} from "semantic-ui-react";
-
-import Head from "next/head";
+import { Container, Segment, Icon, Menu, Form } from "semantic-ui-react";
 
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.getBlockInfo = this.getBlockInfo.bind(this);
-    this.getAccountInfo = this.getAccountInfo.bind(this);
+    this.getAccountInfo = this.getAddressInfo.bind(this);
     this.state = {
-      headerDecription1: "",
-      headerContent1: "",
-      headerDecription2: "",
-      headerContent2: "",
       error: null,
       isLoaded: false,
       query: "",
@@ -36,54 +17,41 @@ class SearchBar extends React.Component {
     };
   }
 
-  static getInitialProps(props) {
-    const address = props.query.address;
-
-    return {
-      address
-    };
-  }
-
+  //redirect page depending on user input
   handleFormSubmit = () => {
-    console.log(this.state.query[1]);
-    if (this.state.query.length > 10 && this.state.query[1] == "x") {
-      this.getAccountInfo(this.state.query);
-    } else {
+    if (this.state.query.length > 10 && this.state.query[1] === "x") {
+      this.getAddressInfo(this.state.query);
+    } else if (!isNaN(this.state.query)) {
       this.getBlockInfo(this.state.query);
+    } else {
+      this.invalidPath(this.state.query);
     }
   };
 
+  //update state with search input
   handleInputChange = e => {
     this.setState({
       query: e.target.value
     });
   };
 
+  //Push page to invalid page if user entry is not recognized
+  invalidPath(event) {
+    this.props.history.push(`/invalidPath/${this.state.query}`);
+  }
+  //Push page to block information page if user enters block number
   getBlockInfo(event) {
     this.props.history.push(`/block/${this.state.query}`);
   }
-
-  getAccountInfo(event) {
+  //Push page to address information page if user enters address number
+  getAddressInfo(event) {
     this.props.history.push(`/address/${this.state.query}`);
   }
 
   render() {
     return (
       <Container>
-        <style jsx global>{`
-          body {
-            background: #f0efef;
-            color: #f0efef;
-          }
-        `}</style>
         <Segment>
-          <Head>
-            <link
-              rel="stylesheet"
-              href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css"
-            />
-          </Head>
-
           <Menu
             style={{
               marginTop: "10px",
@@ -100,8 +68,8 @@ class SearchBar extends React.Component {
               }}
             >
               <div route="/">
-                <a className="item" style={{ color: "#32CD32" }} href="/">
-                  Home
+                <a className="item" style={{ color: "teal" }} href="/">
+                  <Icon name="home" size="large" />
                 </a>
               </div>
             </div>
